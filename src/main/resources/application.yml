@@ -1,0 +1,11 @@
+name: spring
+stand:
+  type:
+    variableName: BERU2_STAND_TYPE
+    defaultValue: dev
+spring:
+  data:
+    mongodb.host: localhost
+    mongodb.port: 27017
+    mongodb.uri: mongodb://localhost/database
+    mongo.repositories.enabled: true
