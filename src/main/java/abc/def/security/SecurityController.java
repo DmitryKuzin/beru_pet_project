@@ -23,7 +23,7 @@ public class SecurityController {
         return "security/error403";
     }
 
-    @GetMapping("/singup")
+    @GetMapping("/signup")
     public String registrationPage() {
         return "security/register";
     }
