@@ -36,7 +36,7 @@
         </div>
         <div class="col-sm"></div>
     </div>
-    <div class="row">Or you can register <a href="/signup">here</a></div>
+    <div class="row">Or you can register <a style="margin-left: 5px; text-decoration: underline;" href="/signup">here</a></div>
 </div>
 
 
