@@ -1,24 +1,44 @@
 package abc.def.catalog;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import abc.def.catalog.entity.Item;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.*;
+import java.util.stream.Collectors;
 
-@Controller
+@RestController
+@RequestMapping(path = "/catalog")
 public class CatalogController {
 
-    @GetMapping("catalog")
-    public String renderCatalog(HttpServletRequest request) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = null;
-        if(!authentication.getName().equals("anonymousUser")) {
-            username = authentication.getName();
-        }
+    @Autowired
+    private CatalogRepository catalogRepository;
+    @Autowired
+    private ItemRepository itemRepository;
+    @Autowired
+    private Item2ItemDtoMapper mapper;
 
-        request.setAttribute("username", username);
-        return "catalog/catalogMain";
+    @RequestMapping(path = "/all", method = RequestMethod.GET)
+    public List<ItemDto> getAllProducts(@RequestParam String categoryId) {
+        List<Item> allItemsByCategory = catalogRepository.findAllByCategoryId(categoryId);
+        if (allItemsByCategory != null && !allItemsByCategory.isEmpty()) {
+            return allItemsByCategory.stream().map(item -> mapper.map(item)).filter(Objects::nonNull).collect(Collectors.toList());
+        }
+        return new ArrayList<>();
+
+    }
+
+    @RequestMapping(path = "/createItem", method = RequestMethod.POST)
+    public String createItem(@RequestBody ItemDto itemDto, @RequestParam String categoryId) {
+        itemRepository.save(
+                Item.builder()
+                        .id(String.valueOf(new Date().getTime()))
+                        .price(Double.parseDouble(itemDto.getPrice()))
+                        .name(itemDto.getName())
+                        .imgPath(itemDto.getImgPath())
+                        .description(itemDto.getDescription())
+                        .categoryId(categoryId)
+                        .build());
+        return "OK";
     }
 }
