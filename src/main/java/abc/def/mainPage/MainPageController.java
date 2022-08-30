@@ -18,7 +18,7 @@ public class MainPageController {
         Object principal = authentication.getPrincipal();
         log.info("principal :{}", principal);
         String username = null;
-        if(!authentication.getName().equals("anonymousUser")) {
+        if (!authentication.getName().equals("anonymousUser")) {
             username = authentication.getName();
         }
 

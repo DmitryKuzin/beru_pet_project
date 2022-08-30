@@ -1,6 +1,10 @@
 package abc.def.catalog;
 
-import abc.def.catalog.entity.Item;
+import abc.def.catalog.category.CategoryRepository;
+import abc.def.catalog.item.Item;
+import abc.def.catalog.item.Item2ItemDtoMapper;
+import abc.def.catalog.item.ItemDto;
+import abc.def.catalog.item.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +16,7 @@ import java.util.stream.Collectors;
 public class CatalogController {
 
     @Autowired
-    private CatalogRepository catalogRepository;
+    private CategoryRepository catalogRepository;
     @Autowired
     private ItemRepository itemRepository;
     @Autowired

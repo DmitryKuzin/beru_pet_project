@@ -1,6 +1,5 @@
-package abc.def.catalog;
+package abc.def.catalog.item;
 
-import abc.def.catalog.entity.Item;
 import org.springframework.stereotype.Component;
 
 @Component

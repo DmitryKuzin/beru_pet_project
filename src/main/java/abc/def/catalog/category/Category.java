@@ -1,4 +1,4 @@
-package abc.def.catalog.entity;
+package abc.def.catalog.category;
 
 import lombok.Builder;
 import lombok.Data;
@@ -6,24 +6,17 @@ import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Document
 @Data
 @Builder
 @ToString
-public class Item {
+public class Category {
 
     @Id
     private String id;
-
     private String name;
-
-    private String categoryId;
-
-    private String imgPath;
-
-    private String description;
-
-    private Double price;
-
-
+    private Category parent;
+    private List<Category> children;
 }

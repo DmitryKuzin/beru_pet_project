@@ -1,4 +1,4 @@
-package abc.def.catalog;
+package abc.def.catalog.item;
 
 
 import lombok.AllArgsConstructor;
