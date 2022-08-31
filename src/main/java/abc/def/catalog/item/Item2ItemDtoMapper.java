@@ -1,10 +1,12 @@
 package abc.def.catalog.item;
 
+import abc.def.abstracts.DtoMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Item2ItemDtoMapper {
+public class Item2ItemDtoMapper implements DtoMapper<Item, ItemDto> {
 
+    @Override
     public ItemDto map(Item item) {
         if (item == null) {
             return null;

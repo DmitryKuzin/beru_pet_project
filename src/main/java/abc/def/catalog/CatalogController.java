@@ -1,10 +1,8 @@
 package abc.def.catalog;
 
-import abc.def.catalog.category.CategoryRepository;
-import abc.def.catalog.item.Item;
-import abc.def.catalog.item.Item2ItemDtoMapper;
-import abc.def.catalog.item.ItemDto;
-import abc.def.catalog.item.ItemRepository;
+import abc.def.catalog.category.CategoryDto;
+import abc.def.catalog.category.CategoryService;
+import abc.def.catalog.item.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,33 +14,36 @@ import java.util.stream.Collectors;
 public class CatalogController {
 
     @Autowired
-    private CategoryRepository catalogRepository;
+    private CategoryService categoryService;
     @Autowired
-    private ItemRepository itemRepository;
-    @Autowired
-    private Item2ItemDtoMapper mapper;
+    private ItemService itemService;
 
-    @RequestMapping(path = "/all", method = RequestMethod.GET)
-    public List<ItemDto> getAllProducts(@RequestParam String categoryId) {
-        List<Item> allItemsByCategory = catalogRepository.findAllByCategoryId(categoryId);
-        if (allItemsByCategory != null && !allItemsByCategory.isEmpty()) {
-            return allItemsByCategory.stream().map(item -> mapper.map(item)).filter(Objects::nonNull).collect(Collectors.toList());
-        }
-        return new ArrayList<>();
-
+    @RequestMapping(path = "/categories", method = RequestMethod.GET)
+    public List<CategoryDto> getCategoryById(@RequestParam String categoryId) {
+        return categoryService.getCategoriesById(categoryId);
     }
 
-    @RequestMapping(path = "/createItem", method = RequestMethod.POST)
-    public String createItem(@RequestBody ItemDto itemDto, @RequestParam String categoryId) {
-        itemRepository.save(
-                Item.builder()
-                        .id(String.valueOf(new Date().getTime()))
-                        .price(Double.parseDouble(itemDto.getPrice()))
-                        .name(itemDto.getName())
-                        .imgPath(itemDto.getImgPath())
-                        .description(itemDto.getDescription())
-                        .categoryId(categoryId)
-                        .build());
-        return "OK";
+    @RequestMapping(path = "/itemsByCategory", method = RequestMethod.GET)
+    public List<ItemDto> getAllItemsByCategoryId(@RequestParam String categoryId) {
+        return itemService.getAllItemsByCategoryId(categoryId);
     }
+
+    @RequestMapping(path = "/items", method = RequestMethod.GET)
+    public List<ItemDto> getItemById(@RequestParam String itemId) {
+        return itemService.getItemsById(itemId);
+    }
+//
+//    @RequestMapping(path = "/createItem", method = RequestMethod.POST)
+//    public String createItem(@RequestBody ItemDto itemDto, @RequestParam String categoryId) {
+//        itemRepository.save(
+//                Item.builder()
+//                        .id(String.valueOf(new Date().getTime()))
+//                        .price(Double.parseDouble(itemDto.getPrice()))
+//                        .name(itemDto.getName())
+//                        .imgPath(itemDto.getImgPath())
+//                        .description(itemDto.getDescription())
+//                        .categoryId(categoryId)
+//                        .build());
+//        return "OK";
+//    }
 }
